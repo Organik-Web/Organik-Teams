@@ -33,7 +33,7 @@ class Organik_Teams {
 	public function __construct() {
 
 		// Define the CPT rewrite variable on init - required here because we need to use get_permalink() which isn't available when plugins are initialised
-		add_action( 'init', array( $this, 'orgnk_teams_cpt_archive_rewrite_slug' ) );
+		add_action( 'init', array( $this, 'orgnk_teams_cpt_rewrite_slug' ) );
 
 		// Register taxonomies
 		new Organik_Teams_Categories();
@@ -130,11 +130,11 @@ class Organik_Teams {
 	}
 
 	/**
-	 * orgnk_teams_cpt_archive_rewrite_slug()
+	 * orgnk_teams_cpt_rewrite_slug()
 	 * Conditionally define the CPT archive permalink based on the pages for CPT functionality in Organik themes
 	 * Includes a fallback string to use as the slug if the option isn't set
 	 */
-	public function orgnk_teams_cpt_archive_rewrite_slug() {
+	public function orgnk_teams_cpt_rewrite_slug() {
 		$default_slug = 'team';
 		$archive_page_id = get_option( 'page_for_' . ORGNK_TEAMS_CPT_NAME );
 		$archive_page_slug = str_replace( home_url(), '', get_permalink( $archive_page_id ) );
