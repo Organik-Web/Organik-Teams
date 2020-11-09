@@ -50,10 +50,14 @@ class Organik_Teams {
 		// Remove unneccessary buttons from the Teeny MCE
 		add_filter( 'teeny_mce_buttons', array( $this, 'orgnk_teams_cpt_remove_teeny_editor_buttons' ) );
 
-		// Add post meta to the admin list view
+		// Add post meta to the admin list view for this CPT
 		add_filter( 'manage_' . ORGNK_FAQS_CPT_NAME . '_posts_columns', array( $this, 'orgnk_teams_cpt_admin_table_column' ) );
 		add_action( 'manage_' . ORGNK_FAQS_CPT_NAME . '_posts_custom_column', array( $this, 'orgnk_teams_cpt_admin_table_content' ), 10, 2 );
 		add_filter( 'manage_edit-' . ORGNK_FAQS_CPT_NAME . '_sortable_columns', array( $this, 'orgnk_teams_cpt_admin_table_sortable' ) );
+
+		// Add post meta to the admin list view for default posts
+		add_filter( 'manage_post_posts_columns', array( $this, 'orgnk_teams_cpt_posts_admin_table_column' ) );
+		add_action( 'manage_post_posts_custom_column', array( $this, 'orgnk_teams_cpt_posts_admin_table_content', 10, 2 ) );
 
 		// Modify the archive query
 		add_filter( 'pre_get_posts', array( $this, 'orgnk_teams_cpt_archive_query' ) );
@@ -241,6 +245,43 @@ class Organik_Teams {
 	public function orgnk_teams_cpt_admin_table_sortable( $columns ) {
 		$columns['menu_order'] = 'menu_order';
 		return $columns;
+	}
+
+	/**
+	 * orgnk_teams_cpt_posts_admin_table_column()
+	 * Register new author column in admin list view and remove the default one
+	 */
+	function orgnk_teams_cpt_posts_admin_table_column( $defaults ) {
+			
+		$columns = array();
+
+		foreach( $defaults as $key => $value ) {
+			// When we find the date column, slip in the new column before it
+			if ( $key == 'author' ) {
+				$columns['staff_author'] = 'Author';
+			}
+			$columns[$key] = $value;
+		}
+		unset($columns['author']); // Remove the default author column
+		return $columns;
+	}
+
+	/**
+	 * orgnk_teams_cpt_posts_admin_table_content()
+	 * Return the author meta for the new admin list view column for each post
+	 */
+	function orgnk_teams_cpt_posts_admin_table_content( $column_name, $post_id ) {
+				
+		global $post;
+		$author_id = esc_html( get_post_meta( $post_id, 'post_team_author', true ) );
+
+		if ( $column_name == 'staff_author' ) {
+			if ( $author_id ) {
+				echo esc_html( get_the_title( $author_id ) );
+			} else {
+				echo '—';
+			}
+		}
 	}
 
 	/**
