@@ -57,7 +57,7 @@ class Organik_Teams {
 
 		// Add post meta to the admin list view for default posts
 		add_filter( 'manage_post_posts_columns', array( $this, 'orgnk_teams_cpt_posts_admin_table_column' ) );
-		add_action( 'manage_post_posts_custom_column', array( $this, 'orgnk_teams_cpt_posts_admin_table_content', 10, 2 ) );
+		add_action( 'manage_post_posts_custom_column', array( $this, 'orgnk_teams_cpt_posts_admin_table_content' ), 10, 2 );
 
 		// Modify the archive query
 		add_filter( 'pre_get_posts', array( $this, 'orgnk_teams_cpt_archive_query' ) );
@@ -251,7 +251,7 @@ class Organik_Teams {
 	 * orgnk_teams_cpt_posts_admin_table_column()
 	 * Register new author column in admin list view and remove the default one
 	 */
-	function orgnk_teams_cpt_posts_admin_table_column( $defaults ) {
+	public function orgnk_teams_cpt_posts_admin_table_column( $defaults ) {
 			
 		$columns = array();
 
@@ -270,7 +270,7 @@ class Organik_Teams {
 	 * orgnk_teams_cpt_posts_admin_table_content()
 	 * Return the author meta for the new admin list view column for each post
 	 */
-	function orgnk_teams_cpt_posts_admin_table_content( $column_name, $post_id ) {
+	public function orgnk_teams_cpt_posts_admin_table_content( $column_name, $post_id ) {
 				
 		global $post;
 		$author_id = esc_html( get_post_meta( $post_id, 'post_team_author', true ) );
