@@ -273,7 +273,7 @@ class Organik_Teams {
 	public function orgnk_teams_cpt_posts_admin_table_content( $column_name, $post_id ) {
 				
 		global $post;
-		$author_id = esc_html( get_post_meta( $post_id, 'post_team_author', true ) );
+		$author_id = esc_html( get_post_meta( $post_id, 'entry_team_author', true ) );
 
 		if ( $column_name == 'staff_author' ) {
 			if ( $author_id ) {

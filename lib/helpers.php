@@ -6,7 +6,7 @@
 function orgnk_teams_author_avatar( $name_size = 'h4' ) {
 
     $output = NULL;
-    $author_id = esc_html( get_post_meta( get_the_ID(), 'post_team_author', true ) );
+    $author_id = esc_html( get_post_meta( get_the_ID(), 'entry_team_author', true ) );
 
     if ( $author_id ) {
 
