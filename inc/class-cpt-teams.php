@@ -51,9 +51,9 @@ class Organik_Teams {
 		add_filter( 'teeny_mce_buttons', array( $this, 'orgnk_teams_cpt_remove_teeny_editor_buttons' ) );
 
 		// Add post meta to the admin list view for this CPT
-		add_filter( 'manage_' . ORGNK_FAQS_CPT_NAME . '_posts_columns', array( $this, 'orgnk_teams_cpt_admin_table_column' ) );
-		add_action( 'manage_' . ORGNK_FAQS_CPT_NAME . '_posts_custom_column', array( $this, 'orgnk_teams_cpt_admin_table_content' ), 10, 2 );
-		add_filter( 'manage_edit-' . ORGNK_FAQS_CPT_NAME . '_sortable_columns', array( $this, 'orgnk_teams_cpt_admin_table_sortable' ) );
+		add_filter( 'manage_' . ORGNK_TEAMS_CPT_NAME . '_posts_columns', array( $this, 'orgnk_teams_cpt_admin_table_column' ) );
+		add_action( 'manage_' . ORGNK_TEAMS_CPT_NAME . '_posts_custom_column', array( $this, 'orgnk_teams_cpt_admin_table_content' ), 10, 2 );
+		add_filter( 'manage_edit-' . ORGNK_TEAMS_CPT_NAME . '_sortable_columns', array( $this, 'orgnk_teams_cpt_admin_table_sortable' ) );
 
 		// Add post meta to the admin list view for default posts
 		add_filter( 'manage_post_posts_columns', array( $this, 'orgnk_teams_cpt_posts_admin_table_column' ) );
@@ -172,7 +172,7 @@ class Organik_Teams {
 
 		$screen = get_current_screen();
 
-		if ( $screen->post_type == ORGNK_FAQS_CPT_NAME ) {
+		if ( $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
 			$settings['teeny'] = true;
 			$settings['media_buttons'] = false;
 		}
@@ -188,7 +188,7 @@ class Organik_Teams {
 
 		$screen = get_current_screen();
 
-		if ( $screen->post_type == ORGNK_FAQS_CPT_NAME ) {
+		if ( $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
 			$remove_buttons = array(
 				'blockquote',
 				'alignleft',
@@ -291,7 +291,7 @@ class Organik_Teams {
 	public function orgnk_teams_cpt_archive_query( $query ) {
 
 		if ( $query->is_post_type_archive( ORGNK_TEAMS_CPT_NAME ) && ! is_admin() && $query->is_main_query() ) {
-			$query->set( 'posts_per_page', '-1' ); // No limit so display all
+			$query->set( 'posts_per_page', -1 ); // No limit so display all
 		}
 
 		return $query;
