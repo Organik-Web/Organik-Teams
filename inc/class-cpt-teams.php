@@ -40,6 +40,7 @@ class Organik_Teams {
 
 		// Hook into the 'init' action to add the Custom Post Type
 		add_action( 'init', array( $this, 'orgnk_teams_cpt_register' ) );
+		add_action( 'init', array( $this, 'orgnk_teams_cpt_settings' ) );
 
         // Change the title placeholder
 		add_filter( 'enter_title_here', array( $this, 'orgnk_teams_cpt_title_placeholder' ) );
@@ -71,6 +72,11 @@ class Organik_Teams {
 	 * Register the custom post type
 	 */
 	public function orgnk_teams_cpt_register() {
+
+		// Get the archive toggle setting from the post type settings page
+		// If this option doesn't exist, the archive/single setting will default to false
+		$archive_single_active = esc_html( get_option( 'options_team_members_enable_archive' ) );
+		$archive_single_active = ( $archive_single_active ) ? true : false;
 
 		$labels = array(
 			'name'                      	=> ORGNK_TEAMS_PLURAL_NAME,
@@ -124,8 +130,8 @@ class Organik_Teams {
 			'show_in_admin_bar'     		=> true,
 			'show_in_nav_menus'     		=> true,
 			'can_export'            		=> true,
-			'has_archive'           		=> true, // The slug for archive, bool toggle archive on/off
-			'publicly_queryable'    		=> true, // Bool toggle single on/off
+			'has_archive'           		=> $archive_single_active, // The slug for archive, bool toggle archive on/off
+			'publicly_queryable'    		=> $archive_single_active, // Bool toggle single on/off
 			'exclude_from_search'   		=> true,
 			'capability_type'       		=> 'page',
 			'rewrite'						=> $rewrite
@@ -157,7 +163,7 @@ class Organik_Teams {
 
 		$screen = get_current_screen();
 
-		if ( $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
+		if ( $screen && $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
 			return 'Add name';
 		}
 
@@ -172,7 +178,7 @@ class Organik_Teams {
 
 		$screen = get_current_screen();
 
-		if ( $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
+		if ( $screen && $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
 			$settings['teeny'] = true;
 			$settings['media_buttons'] = false;
 		}
@@ -188,7 +194,7 @@ class Organik_Teams {
 
 		$screen = get_current_screen();
 
-		if ( $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
+		if ( $screen && $screen->post_type == ORGNK_TEAMS_CPT_NAME ) {
 			$remove_buttons = array(
 				'blockquote',
 				'alignleft',
@@ -262,7 +268,7 @@ class Organik_Teams {
 			}
 			$columns[$key] = $value;
 		}
-		unset($columns['author']); // Remove the default author column
+		unset( $columns['author'] ); // Remove the default author column
 		return $columns;
 	}
 
@@ -311,5 +317,21 @@ class Organik_Teams {
 		}
 
 		echo $schema_script;
+	}
+
+	/**
+	 * orgnk_teams_cpt_settings()
+	 * Add an ACF settings page for this post type
+	 */
+	public function orgnk_teams_cpt_settings() {
+
+		if ( function_exists( 'acf_add_options_sub_page' ) ) {
+		
+			acf_add_options_sub_page( array(
+				'page_title'		=> ORGNK_TEAMS_PLURAL_NAME . ' Settings',
+				'menu_title'		=> 'Settings',
+				'parent_slug'		=> 'edit.php?post_type=' . ORGNK_TEAMS_CPT_NAME
+			) );
+		}
 	}
 }
