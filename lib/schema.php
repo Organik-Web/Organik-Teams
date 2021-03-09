@@ -56,7 +56,7 @@ function orgnk_single_team_schema() {
 
         // Finally, check if there is any compiled schema to return
         if ( $schema ) {
-            return '<script type="application/ld+json" class="organik-person-schema">' . json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . '</script>';
+            return '<script type="application/ld+json" class="organik-person-schema">' . json_encode( $schema, JSON_PRETTY_PRINT ) . '</script>';
         }
     }
 }
