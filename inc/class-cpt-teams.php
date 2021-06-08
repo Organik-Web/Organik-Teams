@@ -298,6 +298,8 @@ class Organik_Teams {
 
 		if ( $query->is_post_type_archive( ORGNK_TEAMS_CPT_NAME ) && ! is_admin() && $query->is_main_query() ) {
 			$query->set( 'posts_per_page', -1 ); // No limit so display all
+			$query->set( 'orderby', 'menu_order' );
+			$query->set( 'order', 'ASC' );
 		}
 
 		return $query;
@@ -326,10 +328,11 @@ class Organik_Teams {
 	public function orgnk_teams_cpt_settings() {
 
 		if ( function_exists( 'acf_add_options_sub_page' ) ) {
-		
+
 			acf_add_options_sub_page( array(
 				'page_title'		=> ORGNK_TEAMS_PLURAL_NAME . ' Settings',
 				'menu_title'		=> 'Settings',
+				'menu_slug'			=> ORGNK_TEAMS_CPT_NAME . '-settings',
 				'parent_slug'		=> 'edit.php?post_type=' . ORGNK_TEAMS_CPT_NAME
 			) );
 		}
