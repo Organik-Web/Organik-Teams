@@ -2,7 +2,7 @@
 /**
  * Define constant variables
  */
-define( 'ORGNK_TEAMS_CATEGORIES_TAX_NAME', 'team-categories' );
+define( 'ORGNK_TEAMS_CATEGORIES_TAX_NAME', 'team-category' );
 
 /**
  * Main Organik_Teams class
