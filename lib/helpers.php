@@ -24,6 +24,23 @@ function orgnk_teams_author_has_posts( $author_id = NULL ) {
     }
 }
 
+
+
+
+//=======================================================================================================================================================
+
+/**
+ * orgnk_teams_id()
+ * Returns an authors id on an assigned team member blog post
+ */
+
+function orgnk_teams_get_post_author_id() {
+
+   return esc_html( get_post_meta( get_the_ID(), 'entry_team_author', true ) );
+
+}
+
+
 //=======================================================================================================================================================
 
 /**
