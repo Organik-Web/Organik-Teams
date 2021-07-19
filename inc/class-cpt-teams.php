@@ -39,7 +39,7 @@ class Organik_Teams {
 		new Organik_Teams_Categories();
 
 		// Register ACF Fields
-		new Organik_Teams_Populate_ACF();
+		new Organik_Teams_ACF_Fields();
 
 		// Hook into the 'init' action to add the Custom Post Type
 		add_action( 'init', array( $this, 'orgnk_teams_cpt_register' ) );
