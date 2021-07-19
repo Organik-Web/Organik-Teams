@@ -26,7 +26,7 @@ class Organik_Teams {
         }
         return self::$instance;
 	}
-	
+
 	/**
      * Constructor function
      */
@@ -37,6 +37,9 @@ class Organik_Teams {
 
 		// Register taxonomies
 		new Organik_Teams_Categories();
+
+		// Register ACF Fields
+		new Organik_Teams_Populate_ACF();
 
 		// Hook into the 'init' action to add the Custom Post Type
 		add_action( 'init', array( $this, 'orgnk_teams_cpt_register' ) );
@@ -66,7 +69,7 @@ class Organik_Teams {
 		// Add schema for this post type to the document head
 		add_action( 'wp_head', array( $this, 'orgnk_teams_cpt_schema_head' ) );
 	}
-	
+
 	/**
 	 * orgnk_teams_cpt_register()
 	 * Register the custom post type
@@ -107,14 +110,14 @@ class Organik_Teams {
 			'items_list_navigation' 		=> 'Team members list navigation',
 			'filter_items_list'     		=> 'Filter team members list'
 		);
-	
+
 		$rewrite = array(
 			'slug'                  		=> ORGNK_TEAMS_REWRITE_SLUG, // The slug for single posts
 			'with_front'            		=> false,
 			'pages'                 		=> true,
 			'feeds'                 		=> false
 		);
-	
+
 		$args = array(
 			'label'                 		=> ORGNK_TEAMS_SINGLE_NAME,
 			'description'           		=> 'Manage and display team members',
@@ -155,7 +158,7 @@ class Organik_Teams {
 		define( 'ORGNK_TEAMS_REWRITE_SLUG', $archive_permalink );
 	}
 
-	/** 
+	/**
 	 * orgnk_teams_cpt_title_placeholder()
 	 * Change CPT title placeholder on edit screen
 	 */
@@ -217,7 +220,7 @@ class Organik_Teams {
 	 * Register new column(s) in admin list view
 	 */
 	public function orgnk_teams_cpt_admin_table_column( $defaults ) {
-		
+
 		$new_order = array();
 
 		foreach( $defaults as $key => $value ) {
@@ -236,9 +239,9 @@ class Organik_Teams {
 	 * Return the content for the new admin list view columns for each post
 	 */
 	public function orgnk_teams_cpt_admin_table_content( $column_name, $post_id ) {
-			
+
 		global $post;
-			
+
 		if ( $column_name == 'menu_order' ) {
 			echo $post->menu_order;
 		}
@@ -258,7 +261,7 @@ class Organik_Teams {
 	 * Register new author column in admin list view and remove the default one
 	 */
 	public function orgnk_teams_cpt_posts_admin_table_column( $defaults ) {
-			
+
 		$columns = array();
 
 		foreach( $defaults as $key => $value ) {
@@ -277,7 +280,7 @@ class Organik_Teams {
 	 * Return the author meta for the new admin list view column for each post
 	 */
 	public function orgnk_teams_cpt_posts_admin_table_content( $column_name, $post_id ) {
-				
+
 		global $post;
 		$author_id = esc_html( get_post_meta( $post_id, 'entry_team_author', true ) );
 
