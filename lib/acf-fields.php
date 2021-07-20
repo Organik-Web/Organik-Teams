@@ -9,7 +9,7 @@ class Organik_Teams_ACF_Fields {
      */
 	public function __construct() {
 
-		// Hook into the 'init' action to add our ACF fields
+		// Hook into the 'init' action to add the ACF fields
 		add_filter( 'init', array( $this, 'orgnk_teams_cpt_acf_fields' ) );
 	}
 
@@ -170,6 +170,8 @@ class Organik_Teams_ACF_Fields {
 					),
 				),
 			),
+
+			// Field Group Settings
 			'menu_order'				=> 0,
 			'position'					=> 'normal',
 			'style'						=> 'seamless',
