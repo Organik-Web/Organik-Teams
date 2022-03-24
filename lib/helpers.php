@@ -53,7 +53,7 @@ function orgnk_teams_author_avatar( $name_size = 'h4' ) {
         $archive_single_active      = esc_html( get_option( 'options_team_members_enable_archive' ) );
 
         $output .= '<div class="orgnk-teams-author-avatar">';
-            $output .= '<div class="author-image" style="background-image: url(' . $image . ');"><div class="ratio-sizer"></div></div>';
+            $output .= ($image) ? '<div class="author-image" style="background-image: url(' . $image . ');"><div class="ratio-sizer"></div></div>' : null;
             $output .= '<div class="author-meta">';
 
                 if ( $archive_single_active ) {
@@ -89,8 +89,15 @@ function orgnk_teams_entry_meta_contact() {
 	$output = '';
 
 	// Variables
-    $phone          = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_phone', true ) );
-    $email          = sanitize_email( get_post_meta( orgnk_get_the_ID(), 'team_member_email', true ) );
+    if ( function_exists( 'orgnk_get_the_ID' ) && orgnk_get_the_ID() ) {
+        $phone          = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_phone', true ) );
+        $email          = sanitize_email( get_post_meta( orgnk_get_the_ID(), 'team_member_email', true ) );
+        $linkedin       = esc_url( get_post_meta( orgnk_get_the_ID(), 'team_member_linkedin', true ) );
+    } else {
+        $phone          = esc_html( get_post_meta( get_the_ID(), 'team_member_phone', true ) );
+        $email          = sanitize_email( get_post_meta( get_the_ID(), 'team_member_email', true ) );
+        $linkedin       = esc_url( get_post_meta( get_the_ID(), 'team_member_linkedin', true ) );
+    }
 
 	if ( $phone || $email ) {
 
@@ -135,6 +142,22 @@ function orgnk_teams_entry_meta_contact() {
                     $output .= '</div>';
                 }
 
+                if ( $linkedin ) {
+
+                    $output .= '<div class="meta-group linkedin">';
+
+                        $output .= '<div class="group-label">';
+                            $output .= '<i class="icon linkedin"></i>';
+                            $output .= '<span class="label">linkedin</span>';
+                        $output .= '</div>';
+
+                        $output .= '<div class="group-content">';
+                            $output .= '<a href="' . $linkedin . '" target="_blank" rel="noopener">' . $linkedin . '</a>';
+                        $output .= '</div>';
+
+                    $output .= '</div>';
+                }
+
             $output .= '</div>';
         $output .= '</div>';
     }
@@ -153,9 +176,15 @@ function orgnk_teams_entry_meta_table( $heading_size = 'h3' ) {
 	$output = '';
 
 	// Variables
-    $department     = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_department', true ) );
-    $phone          = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_phone', true ) );
-    $email          = sanitize_email( get_post_meta( orgnk_get_the_ID(), 'team_member_email', true ) );
+    if ( function_exists( 'orgnk_get_the_ID' ) && orgnk_get_the_ID() ) {
+        $department     = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_department', true ) );
+        $phone          = esc_html( get_post_meta( orgnk_get_the_ID(), 'team_member_phone', true ) );
+        $email          = sanitize_email( get_post_meta( orgnk_get_the_ID(), 'team_member_email', true ) );
+    } else {
+        $department     = esc_html( get_post_meta( get_the_ID(), 'team_member_department', true ) );
+        $phone          = esc_html( get_post_meta( get_the_ID(), 'team_member_phone', true ) );
+        $email          = sanitize_email( get_post_meta( get_the_ID(), 'team_member_email', true ) );
+    }
 
 	if ( $department || $phone || $email ) {
 
