@@ -109,7 +109,7 @@ class Organik_Teams_ACF_Fields {
 					'placeholder'		=> '',
 					'prepend'			=> '',
 					'append'			=> '',
-				),
+				)
 			),
 
 			// Location Rules - Single Team Member
